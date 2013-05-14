@@ -430,8 +430,7 @@ namespace Colossus.Crawler
             {
                 var jpost = new JPost();
                 var postInfo = JsonConvert.DeserializeObject<Hashtable>(
-                    n.SelectSingleNode(".//div[contains(concat(\" \", @class, \" \"), \"p_post\")]")
-                    .Attributes["data-field"].Value.Replace("&quot;", "\""));
+                    n.Attributes["data-field"].Value.Replace("&quot;", "\""));
                 var post = postInfo["content"].As<JObject>();
                 //post = postInfo["content"].As<JObject>();
                 jpost.Id = post.Value<long>("id");
@@ -445,7 +444,7 @@ namespace Colossus.Crawler
                 catch {
                     jpost.Author = "匿名吧友";
                 }
-                jpost.Content = n.SelectSingleNode(".//div[@class=\"d_post_content\"]").InnerHtml;
+                jpost.Content = n.SelectSingleNode(".//div[@class=\"d_post_content j_d_post_content\"]").InnerHtml;
 
                 Hashtable df = new Hashtable();
                 try
