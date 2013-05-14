@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -444,13 +444,13 @@ namespace Colossus.Crawler
                 catch {
                     jpost.Author = "匿名吧友";
                 }
-                jpost.Content = n.SelectSingleNode(".//div[@class=\"d_post_content j_d_post_content\"]").InnerHtml;
+
+                jpost.Content = n.SelectSingleNode(".//div[contains(concat(\" \", @class, \" \"), \"d_post_content\")]").InnerHtml;
 
                 Hashtable df = new Hashtable();
                 try
                 {
-                    df = JsonConvert.DeserializeObject<Hashtable>(n.SelectSingleNode(".//li[contains(concat(\" \", @class, \" \"), \"lzl_li_pager\")]").Attributes["data-field"].Value
-                        .Replace("total_num", "'total_num'").Replace("total_page", "'total_page'").Replace("'", "\""));
+                    df = JsonConvert.DeserializeObject<Hashtable>(n.SelectSingleNode(".//li[contains(concat(\" \", @class, \" \"), \"lzl_li_pager\")]").Attributes["data-field"].Value);
                     if (df["total_num"].ToString() == string.Empty)
                     {
                         jpost.ReplyNumber = 0;
@@ -605,8 +605,7 @@ namespace Colossus.Crawler
             foreach (var n in nDiv)
             {
                 var jreply = new JReply();
-                var replyInfo = JsonConvert.DeserializeObject<Hashtable>(n.Attributes["data-field"].Value
-                    .Replace("spid", "'spid'").Replace("user_name", "'user_name'").Replace("portrait", "'portrait'").Replace("'", "\""));
+                var replyInfo = JsonConvert.DeserializeObject<Hashtable>(n.Attributes["data-field"].Value);
                 jreply.Id = long.Parse(replyInfo["spid"].ToString());
                 jreply.JThreadId = threadId;
                 jreply.JPostId = postId;
