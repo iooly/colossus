@@ -445,7 +445,7 @@ namespace Colossus.Crawler
                     jpost.Author = "匿名吧友";
                 }
 
-                jpost.Content = n.SelectSingleNode(".//div[contains(concat(\" \", @class, \" \"), \"d_post_content\")]").InnerHtml;
+                jpost.Content = n.SelectSingleNode(".//div[@class=\"d_post_content j_d_post_content\"]").InnerHtml;
 
                 Hashtable df = new Hashtable();
                 try
